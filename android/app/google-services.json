@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "155361759190",
+    "project_id": "colibri-flutter-project",
+    "storage_bucket": "colibri-flutter-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155361759190:android:4856c5111be11e38405e77",
+        "android_client_info": {
+          "package_name": "com.example.colibri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155361759190-ptmgl7tf5hmgs3uu3dkl9v8aso37l4h5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtlvVOfjzkzTQ7iabXp3bdsJB27oswIG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155361759190-ptmgl7tf5hmgs3uu3dkl9v8aso37l4h5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
