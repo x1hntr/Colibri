@@ -1,129 +1,119 @@
+import 'package:colibri/pages/register_page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:colibri/pages/register_page.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Form(
-      key: formKey,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Column(
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              width: w,
-              height: h,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("img/login.png"), fit: BoxFit.cover)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 300,
-                  ),
-                  const Text(
-                    "Email:",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        color: Color.fromRGBO(29, 141, 246, 1)),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: 350,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          hintText: "usuario@correo.com",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Ingrese el Email';
-                        }
-                        if (!value.contains('@')) {
-                          return 'Ingrese un correo valido';
-                        }
-                        return null;
-                      },
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          Container(
+            width: w,
+            height: h * 0.36,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("img/login.png"), fit: BoxFit.cover)),
+          ),
+          Container(
+            width: 340,
+            child: Column(
+              children: [
+                TextField(
+                  style: TextStyle(
+                      fontSize: 17, color: Color.fromRGBO(45, 52, 54, 1)),
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                TextField(
+                  style: TextStyle(
+                      fontSize: 17, color: Color.fromRGBO(45, 52, 54, 1)),
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.lock),
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const Text(
-                    "Contraseña:",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        color: Color.fromRGBO(29, 141, 246, 1)),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: 350,
-                    child: TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          hintText: "******************",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Ingrese la Contraseña';
-                        }
-                        return null;
-                      },
+                    TextButton(
+                      onPressed: () => {},
+                      child: Text(
+                        "Olvide mi contraseña",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromRGBO(129, 129, 129, 1),
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const Text(
-                    "                                                   Olvide mi contraseña",
-                    style: TextStyle(
-                        fontSize: 15, color: Color.fromRGBO(129, 129, 129, 1)),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          const SnackBar(content: Text("Procesando"));
-                        }
-                      },
-                      child: const Text('Ingresar')),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  const Text(
-                    "No tengo cuenta",
-                    style: TextStyle(
-                        fontSize: 15, color: Color.fromRGBO(129, 129, 129, 1)),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+              ],
             ),
-            Container()
-          ],
-        ),
+          ),
+          Container(
+            height: 45,
+            width: 120,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                ' Ingresar ',
+                style: TextStyle(fontSize: 18),
+              ),
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0))),
+            ),
+          ),
+          SizedBox(
+            height: w * 0.15,
+          ),
+          RichText(
+            text: TextSpan(
+                text: "No tienes cuenta?",
+                style: TextStyle(color: Colors.grey[500], fontSize: 18),
+                children: [
+                  TextSpan(
+                      text: "  Regístrate",
+                      style: TextStyle(
+                          color: Colors.blue[600],
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => Get.to(() => const RegisterPage())),
+                ]),
+          )
+        ],
       ),
     );
   }
