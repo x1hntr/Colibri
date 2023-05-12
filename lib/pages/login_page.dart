@@ -1,4 +1,7 @@
+import 'package:colibri/pages/home_page.dart';
 import 'package:colibri/pages/register_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri/pages/register_page.dart';
@@ -12,6 +15,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -30,9 +36,28 @@ class _LoginPageState extends State<LoginPage> {
                     image: AssetImage("img/login.png"), fit: BoxFit.cover)),
           ),
           Container(
-            width: 340,
+            margin: const EdgeInsets.only(left: 20, right: 20),
+            width: w,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "HOLA DE NUEVO!",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(63, 154, 242, 1)),
+                ),
+                Text(
+                  "Ingresa tus datos para entrar a tu cuenta",
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 TextField(
                   style: TextStyle(
                       fontSize: 17, color: Color.fromRGBO(45, 52, 54, 1)),
@@ -41,9 +66,10 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: "Email",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
+                  controller: emailTextController,
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 35,
                 ),
                 TextField(
                   style: TextStyle(
@@ -54,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: "Password",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
+                  controller: passwordTextController,
                 ),
                 SizedBox(
                   height: 10,
@@ -64,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(),
                     ),
                     TextButton(
-                      onPressed: () => {},
+                      onPressed: () {},
                       child: Text(
                         "Olvide mi contraseña",
                         style: TextStyle(
@@ -85,7 +112,18 @@ class _LoginPageState extends State<LoginPage> {
             height: 45,
             width: 120,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: emailTextController.text,
+                        password: passwordTextController.text)
+                    .then((value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                }).onError((error, stackTrace) {
+                  print("Error ${error.toString()}");
+                });
+              },
               child: const Text(
                 ' Ingresar ',
                 style: TextStyle(fontSize: 18),
