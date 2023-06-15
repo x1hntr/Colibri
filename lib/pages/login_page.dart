@@ -1,10 +1,9 @@
-import 'package:colibri/pages/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:colibri/pages/colibri_page.dart';
 import 'package:colibri/pages/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:colibri/pages/register_page.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
@@ -112,17 +111,36 @@ class _LoginPageState extends State<LoginPage> {
             height: 45,
             width: 120,
             child: ElevatedButton(
-              onPressed: () {
-                FirebaseAuth.instance
-                    .signInWithEmailAndPassword(
-                        email: emailTextController.text,
-                        password: passwordTextController.text)
-                    .then((value) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                }).onError((error, stackTrace) {
-                  print("Error ${error.toString()}");
-                });
+              onPressed: () async {
+                try {
+                  final value = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: emailTextController.text,
+                          password: passwordTextController.text);
+                  final uidUser = value.user!.uid;
+
+                  print("UID");
+                  print(uidUser);
+                  CollectionReference users =
+                      FirebaseFirestore.instance.collection('users');
+                  DocumentSnapshot documentSnapshot =
+                      await users.doc(uidUser).get();
+                  if (documentSnapshot.exists) {
+                    dynamic userDoc = documentSnapshot.data();
+                    print(userDoc.toString());
+                    if (userDoc!["role"] == "user") {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    } else {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    }
+                  } else {
+                    print("Error");
+                  }
+                } catch (e) {
+                  print("$e");
+                }
               },
               child: const Text(
                 ' Ingresar ',

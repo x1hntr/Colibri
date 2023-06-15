@@ -1,4 +1,5 @@
-import 'package:colibri/pages/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:colibri/pages/colibri_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
+  TextEditingController usernameTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -60,6 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       hintText: "Username",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
+                  controller: usernameTextController,
                 ),
                 SizedBox(
                   height: 25,
@@ -108,6 +111,26 @@ class _RegisterPageState extends State<RegisterPage> {
                             email: emailTextController.text,
                             password: passwordTextController.text)
                         .then((value) {
+                      print("UID");
+
+                      print(value.user!.uid);
+                      print("Usuario");
+                      print(value.user!);
+
+                      CollectionReference users =
+                          FirebaseFirestore.instance.collection('users');
+                      users
+                          .doc(value.user!.uid)
+                          .set({
+                            'name': usernameTextController.text,
+                            'surname': usernameTextController.text,
+                            'email': emailTextController.text,
+                            'role': 'user'
+                          })
+                          .then((value) => print("USer Added"))
+                          .catchError(
+                              (error) => print("FAiled to add user: $error"));
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
                     }).onError((error, stackTrace) {

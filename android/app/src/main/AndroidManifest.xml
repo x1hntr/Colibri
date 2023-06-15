@@ -4,6 +4,8 @@
         android:label="colibri"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDpg_qvpRwx0z6_kfaxCfiXkuL9CNM9wxw"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

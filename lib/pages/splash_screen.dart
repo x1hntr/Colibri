@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:colibri/pages/login_page.dart';
+
+import 'package:colibri/pages/colibri_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(milliseconds: 2500), () {
       setState(() {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginPage()),
+            MaterialPageRoute(builder: (context) => const HomePage()),
             (route) => false);
       });
     });
