@@ -14,7 +14,7 @@ class Routes extends StatelessWidget {
       const DashboardPage(),
       const MapPage(),
       const ActivityPage(),
-      const SettingsPage()
+      const SettingsPage(),
     ];
     return myList[index];
   }

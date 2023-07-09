@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../components/pedometer.dart';
+import '../components/sleep.dart';
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
@@ -8,6 +11,29 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  int? _nofSteps = 0;
+  double? _nofSleep = 0;
+  StepData stepData = StepData();
+  SleepData sleepData = SleepData();
+
+  Future<void> myStepData() async {
+    var steps = await stepData.fetchStepData();
+    var sleep = await sleepData.fetchStepData();
+
+    setState(() {
+      _nofSteps = steps;
+      _nofSleep = sleep;
+      print('Pasos' + _nofSteps.toString());
+      print('Sueno' + _nofSleep.toString());
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    myStepData();
+  }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -41,10 +67,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Image.asset("img/quito.png", height: 120)],
-                  )
                 ],
               ),
             ),
@@ -81,16 +103,12 @@ class _DashboardPageState extends State<DashboardPage> {
                             const TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       Text(
-                        "20000 Pasos",
+                        _nofSteps.toString(),
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
+                            const TextStyle(color: Colors.white, fontSize: 40),
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Image.asset("img/huella.png", height: 70)],
-                  )
                 ],
               ),
             ),
@@ -120,16 +138,15 @@ class _DashboardPageState extends State<DashboardPage> {
                             const TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       Text(
-                        "3.5 h",
+                        (_nofSleep! ~/ 60).toStringAsFixed(0) +
+                            ':' +
+                            (_nofSleep! % 60).toStringAsFixed(0) +
+                            ' H',
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
+                            const TextStyle(color: Colors.white, fontSize: 40),
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Image.asset("img/dormido.png", height: 70)],
-                  )
                 ],
               ),
             ),
@@ -154,11 +171,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "Tiempo ",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      Text(
                         "En areas verdes",
                         style:
                             const TextStyle(color: Colors.white, fontSize: 20),
@@ -166,14 +178,10 @@ class _DashboardPageState extends State<DashboardPage> {
                       Text(
                         "50 min",
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
+                            const TextStyle(color: Colors.white, fontSize: 40),
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Image.asset("img/arbol.png", height: 70)],
-                  )
                 ],
               ),
             ),

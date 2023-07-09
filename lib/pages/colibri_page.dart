@@ -15,7 +15,6 @@ class _HomePageState extends State<HomePage> {
   BottomNavigation? myBNB;
   @override
   void initState() {
-    // TODO: implement initState
     myBNB = BottomNavigation(currentIndex: (i) {
       setState(() {
         index = i;
@@ -31,9 +30,11 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
         toolbarHeight: 60,
-        centerTitle: false,
-        leadingWidth: 100,
-        leading: Text(DateFormat.MMMEd().format(DateTime.now())),
+        leadingWidth: 120,
+        title: Text(
+          DateFormat.MMMEd().format(DateTime.now()),
+          style: const TextStyle(color: Colors.white, fontSize: 20),
+        ),
         actions: [
           Container(width: 90, child: Image.asset("img/IconHome.png")),
           SizedBox(

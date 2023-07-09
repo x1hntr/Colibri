@@ -11,11 +11,11 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  int? _nofSteps = 10;
+  int? _nofSteps = 0;
   StepData stepData = StepData();
-
+  int steps = 0;
   Future<void> myStepData() async {
-    var steps = await stepData.fetchStepData();
+    steps = (await stepData.fetchStepData())!;
     setState(() {
       _nofSteps = steps;
     });
@@ -32,6 +32,7 @@ class _ActivityPageState extends State<ActivityPage> {
     final Brightness brightness = Theme.of(context).brightness;
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Column(children: [
         SizedBox(
@@ -73,10 +74,11 @@ class _ActivityPageState extends State<ActivityPage> {
           ),
         ),
         Container(
-          height: 250,
+          height: 150,
+          width: w * 0.95,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("img/box1.png"), fit: BoxFit.fill),
+                image: AssetImage("img/box5.png"), fit: BoxFit.fill),
           ),
           child: SfRadialGauge(
             axes: <RadialAxis>[
@@ -94,21 +96,18 @@ class _ActivityPageState extends State<ActivityPage> {
                         widget: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Image.asset("img/colibri.png"),
+                            /* Image.asset("img/colibri.png"),*/
                             Text(
                               _nofSteps.toString(),
                               style: TextStyle(
-                                  fontFamily: 'Times',
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.italic),
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
-                            Text(
-                              ' / 10000',
-                              style: TextStyle(
-                                  fontFamily: 'Times',
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.italic),
-                            ),
+                            Text(' / 10000',
+                                style: TextStyle(
+                                    fontFamily: 'Times', color: Colors.white)),
                           ],
                         )),
                   ],
@@ -119,13 +118,16 @@ class _ActivityPageState extends State<ActivityPage> {
                         animationDuration: 1200,
                         sizeUnit: GaugeSizeUnit.factor,
                         gradient: SweepGradient(colors: <Color>[
-                          Color(0xFF6A6EF6),
-                          Color(0xFFDB82F5)
+                          Colors.white,
+                          Colors.white,
+
+                          /*  Color(0xFF6A6EF6),
+                          Color(0xFFDB82F5)*/
                         ], stops: <double>[
                           0.25,
                           0.75
                         ]),
-                        color: Color(0xFF00A8B5),
+                        color: /*Color(0xFF00A8B5),*/ Colors.blue,
                         width: 0.15),
                   ]),
             ],
@@ -134,28 +136,33 @@ class _ActivityPageState extends State<ActivityPage> {
         SizedBox(
           height: 5,
         ),
-        Center(
-          child: Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                debugPrint('Card Tapped.');
-              },
-              child: const SizedBox(
-                  width: 200,
-                  height: 100,
-                  child: Center(
-                    child: Text(
-                      "OBJETIVOS",
-                      style: TextStyle(
-                        color: Color.fromRGBO(99, 110, 114, 1.0),
-                        fontSize: 14,
-                      ),
+        Container(
+          height: 110,
+          width: w * 0.95,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("img/box1.png"), fit: BoxFit.fill),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Step Counter",
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                  )),
+                    Text(
+                      "20000 Pasos",
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
