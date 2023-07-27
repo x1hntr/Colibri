@@ -4,6 +4,7 @@ import 'package:colibri/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:slidable_button/slidable_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -16,6 +17,11 @@ class _SettingsPageState extends State<SettingsPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   TextEditingController usernameTextController = TextEditingController();
+  final Uri _url = Uri.parse(
+      'https://drive.google.com/file/d/1beetniLchTN5dGxBmnisQ8VMlP9xPq1V/view?usp=sharing');
+  final Uri _url2 = Uri.parse(
+      'https://drive.google.com/file/d/18Exfe4S2jUc67tN7LdnnWDNIjiqYCH0W/view?usp=sharing');
+
   @override
   Widget build(BuildContext context) {
     var _positionB = SlidableButtonPosition.left;
@@ -32,6 +38,11 @@ class _SettingsPageState extends State<SettingsPage> {
             (route) => false);
       },
     );
+
+    initState() {
+      print(w.toString());
+    }
+
     Widget cancelButton = TextButton(
       child: Text("Cancelar"),
       onPressed: () {
@@ -49,14 +60,20 @@ class _SettingsPageState extends State<SettingsPage> {
       ],
     );
 
-    // show the dialog
-
-    _logout() async {
-      await FirebaseAuth.instance.signOut();
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (route) => false);
+    setData(surname) async {
+      try {
+        final updateSurname = {
+          "surname": surname,
+        };
+        final value = FirebaseAuth.instance.currentUser;
+        final uidUser = value!.uid;
+        final datos = FirebaseFirestore.instance;
+        datos.collection('users').doc(uidUser).update(updateSurname);
+      } catch (e) {
+        print("$e");
+      }
     }
+    // show the dialog
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -64,7 +81,18 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
           children: [
             SizedBox(
-              height: 10,
+              height: w * 0.025,
+            ),
+            Container(
+              height: h * 0.155,
+              width: w * 0.325,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("img/profile.png"), fit: BoxFit.fill),
+              ),
+            ),
+            SizedBox(
+              height: w * 0.025,
             ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
@@ -73,32 +101,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 30,
-                    child: Container(
-                      alignment: AlignmentDirectional.center,
-                      child: Text(
-                        "MI RANKING DE HOY:",
-                        style: TextStyle(color: Colors.blue[600]),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.grey[200],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SizedBox(
-                    child: Container(
-                      child: Image.asset("img/ColibriOne.png"),
-                    ),
+                    height: w * 0.03,
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 10,
+              height: w * 0.03,
             ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
@@ -107,135 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 5,
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: Container(
-                      alignment: AlignmentDirectional.center,
-                      child: Text(
-                        "EDITAR INFORMACIÓN BÁSICA",
-                        style: TextStyle(color: Colors.blue[600]),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.grey[200],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SizedBox(
-                      height: 45,
-                      child: TextField(
-                        style: TextStyle(
-                            fontSize: 17, color: Color.fromRGBO(45, 52, 54, 1)),
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            hintText: "Username",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        controller: usernameTextController,
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 45,
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: 15, color: Color.fromRGBO(45, 52, 54, 1)),
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          hintText: "Email",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      controller: emailTextController,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                      height: 45,
-                      child: TextField(
-                        style: TextStyle(
-                            fontSize: 17, color: Color.fromRGBO(45, 52, 54, 1)),
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            hintText: "Password",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        controller: passwordTextController,
-                      )),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: 140,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: emailTextController.text,
-                              password: passwordTextController.text)
-                          .then((value) {
-                        print("UID");
-
-                        print(value.user!.uid);
-                        print("Usuario");
-                        print(value.user!);
-
-                        CollectionReference users =
-                            FirebaseFirestore.instance.collection('users');
-                        users
-                            .doc(value.user!.uid)
-                            .set({
-                              'name': usernameTextController.text,
-                              'surname': usernameTextController.text,
-                              'email': emailTextController.text,
-                              'role': 'user'
-                            })
-                            .then((value) => print("USer Added"))
-                            .catchError(
-                                (error) => print("FAiled to add user: $error"));
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
-                      }).onError((error, stackTrace) {
-                        print("No paso el auth ${error.toString()}");
-                      });
-                    },
-                    child: const Text(
-                      ' GUARDAR ',
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0))),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 20, right: 20),
-              width: w,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 30,
+                    height: w * 0.075,
                     child: Container(
                       alignment: AlignmentDirectional.center,
                       child: Text(
@@ -249,23 +130,47 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 6,
+                    height: w * 0.03,
                   ),
                   SizedBox(
-                      height: 45,
+                      height: h * 0.045,
                       width: w,
                       child: ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          launchUrl(_url2);
+                          /*Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      TutorialPage()));*/
+                          //launchUrl(_url);
+                        },
                         label: Text(
                           ' ¿Como usar Colibri? ',
                         ),
                         icon: Icon(Icons.info),
                       )),
+                  SizedBox(
+                    height: w * 0.015,
+                  ),
+                  SizedBox(
+                      height: h * 0.045,
+                      width: w,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          print('Hola');
+                          launchUrl(_url);
+                        },
+                        label: Text(
+                          ' Terminos y condiciones ',
+                        ),
+                        icon: Icon(Icons.domain_verification_outlined),
+                      )),
                 ],
               ),
             ),
             SizedBox(
-              height: 10,
+              height: w * 0.03,
             ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
@@ -277,7 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     height: 5,
                   ),
                   SizedBox(
-                    height: 30,
+                    height: w * 0.075,
                     child: Container(
                       alignment: AlignmentDirectional.center,
                       child: Text(
@@ -295,7 +200,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   SlidableButton(
                     initialPosition: _positionB,
-                    height: 45,
+                    height: h * 0.045,
                     width: w,
                     buttonWidth: 125,
                     color: Colors.grey[200],
@@ -334,7 +239,11 @@ class _SettingsPageState extends State<SettingsPage> {
                             },
                           );
                         }
-                        if (position == SlidableButtonPosition.left) {}
+                        if (position == SlidableButtonPosition.left) {
+                          setState(() {
+                            position = SlidableButtonPosition.right;
+                          });
+                        }
                       });
                     },
                   ),
