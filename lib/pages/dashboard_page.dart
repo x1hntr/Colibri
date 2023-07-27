@@ -48,6 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
     try {
       final value = FirebaseAuth.instance.currentUser;
       final uidUser = value!.uid;
+      print(uidUser.toString());
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
       DocumentSnapshot documentSnapshot = await users.doc(uidUser).get();
@@ -64,13 +65,18 @@ class _DashboardPageState extends State<DashboardPage> {
             (0.3 * (nofSleep! / 480)) +
             (0.2 * (nofArea! / 60));
         setState(() {
-          if (ranking! >= 0 && ranking! <= 0.4)
+          if (ranking! >= 0 && ranking! <= 0.4) {
             rankingText = "img/ranking0.png";
-          if (ranking! > 0.4 && ranking! <= 0.6)
+          }
+          if (ranking! > 0.4 && ranking! <= 0.6) {
             rankingText = "img/ranking1.png";
-          if (ranking! > 0.6 && ranking! <= 0.8)
+          }
+          if (ranking! > 0.6 && ranking! <= 0.8) {
             rankingText = "img/ranking2.png";
-          if (ranking! > 0.8) rankingText = "img/ranking3.png";
+          }
+          if (ranking! > 0.8) {
+            rankingText = "img/ranking3.png";
+          }
         });
       } else {
         print("ErrorBDD");

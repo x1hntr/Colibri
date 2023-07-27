@@ -277,12 +277,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                           email: emailTextController.text,
                                           password: passwordTextController.text)
                                       .then((value) {
-                                    print("UID");
-
-                                    print(value.user!.uid);
-                                    print("Usuario");
-                                    print(value.user!);
-
                                     CollectionReference users =
                                         FirebaseFirestore.instance
                                             .collection('users');
@@ -301,9 +295,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                           'time': 1,
                                           'birthday': dateTextController.text
                                         })
-                                        .then((value) => print("User Added"))
+                                        .then((value) =>
+                                            print("Usuario agregado"))
                                         .catchError((error) => print(
-                                            "FAiled to add user: $error"));
+                                            "Fallo agregar al usuario: $error"));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

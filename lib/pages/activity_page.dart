@@ -55,14 +55,14 @@ class _ActivityPageState extends State<ActivityPage> {
 
   setData(nofSteps, nofSleep) async {
     try {
-      final arrive = {
+      final data = {
         "sleep": nofSleep,
         "steps": nofSteps,
       };
       final value = FirebaseAuth.instance.currentUser;
       final uidUser = value!.uid;
       final datos = FirebaseFirestore.instance;
-      datos.collection('users').doc(uidUser).update(arrive);
+      datos.collection('users').doc(uidUser).update(data);
     } catch (e) {
       print("$e");
     }
@@ -70,13 +70,13 @@ class _ActivityPageState extends State<ActivityPage> {
 
   setSteps(steps_goal) async {
     try {
-      final arrive = {
+      final data = {
         "steps_goal": steps_goal!,
       };
       final value = FirebaseAuth.instance.currentUser;
       final uidUser = value!.uid;
       final datos = FirebaseFirestore.instance;
-      datos.collection('users').doc(uidUser).update(arrive);
+      datos.collection('users').doc(uidUser).update(data);
     } catch (e) {
       print("$e");
     }

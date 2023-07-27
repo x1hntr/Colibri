@@ -160,36 +160,30 @@ class _LoginPageState extends State<LoginPage> {
                                   email: emailTextController.text,
                                   password: passwordTextController.text);
                           var uidUser = value.user!.uid;
-
-                          print("UID");
-                          print(uidUser);
                           CollectionReference users =
                               FirebaseFirestore.instance.collection('users');
                           DocumentSnapshot documentSnapshot =
                               await users.doc(uidUser).get();
                           if (documentSnapshot.exists) {
                             dynamic userDoc = documentSnapshot.data();
-                            print('USUARIOOOO');
-
-                            print(userDoc.toString());
-                            print(userDoc!["role"].toString());
-
                             if (userDoc!["role"] == "user") {
+                              // ignore: use_build_context_synchronously
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                                      builder: (context) => const HomePage()));
                             } else {
+                              // ignore: use_build_context_synchronously
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AdminPage()));
+                                      builder: (context) => const AdminPage()));
                             }
                           } else {
                             print("Error");
                           }
                         } catch (e) {
-                          print("Aqui va el error $e");
+                          print("Error $e");
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

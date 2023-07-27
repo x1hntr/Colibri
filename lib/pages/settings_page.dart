@@ -29,16 +29,6 @@ class _SettingsPageState extends State<SettingsPage> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    Widget okButton = TextButton(
-      child: Text("Si"),
-      onPressed: () async {
-        await FirebaseAuth.instance.signOut();
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginPage()),
-            (route) => false);
-      },
-    );
-
     initState() {
       print(w.toString());
     }
@@ -48,6 +38,16 @@ class _SettingsPageState extends State<SettingsPage> {
       onPressed: () {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+      },
+    );
+
+    Widget okButton = TextButton(
+      child: Text("Si"),
+      onPressed: () async {
+        await FirebaseAuth.instance.signOut();
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginPage()),
+            (route) => false);
       },
     );
     // set up the AlertDialog

@@ -24,14 +24,6 @@ class _TutorialPageState extends State<TutorialPage> {
         SizedBox(
           height: h * 0.12,
         ),
-        /*  Container(
-          height: h * 0.1,
-          width: w * 0.9,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("img/inicio.png"), fit: BoxFit.fill),
-          ),
-        ),*/
         Center(
           child: Stepper(
             controlsBuilder: (BuildContext context, ControlsDetails details) {
