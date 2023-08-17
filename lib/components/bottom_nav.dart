@@ -28,12 +28,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
         selectedFontSize: 14.0,
         unselectedFontSize: 12.0,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa'),
           BottomNavigationBarItem(
               icon: Icon(Icons.directions_walk_outlined), label: 'Actividad'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
+              icon: Icon(Icons.settings), label: 'Configuración'),
         ]);
   }
 }

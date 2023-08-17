@@ -166,6 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                               await users.doc(uidUser).get();
                           if (documentSnapshot.exists) {
                             dynamic userDoc = documentSnapshot.data();
+                            print("usedoc hehe: " + userDoc.toString());
                             if (userDoc!["role"] == "user") {
                               // ignore: use_build_context_synchronously
                               Navigator.push(

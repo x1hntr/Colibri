@@ -10,17 +10,12 @@ class SleepData {
       HealthDataType.SLEEP_IN_BED,
     ];
     List<HealthDataPoint> healthData = [];
-
     final now = DateTime.now();
-
     final from = DateTime.now().subtract(const Duration(days: 1));
-
     bool requested = await health.requestAuthorization(types);
-
     if (requested) {
       try {
         healthData = await health.getHealthDataFromTypes(from, now, types);
-        //healthData.addAll(healthData);
         print('Permiso');
       } catch (error) {
         print("Caught exception in getTotalStepsInInterval: $error");

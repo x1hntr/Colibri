@@ -24,7 +24,7 @@ class _ActivityPageState extends State<ActivityPage> {
   int porcentaje = 0;
   int _currentValue = 3;
   var age = 25;
-  int? steps_goal = 100;
+  int steps_goal = 100;
   String goal = '';
   String percent = '';
 
